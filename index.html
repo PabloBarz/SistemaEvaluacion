@@ -20,6 +20,40 @@
                 <h1>Sistema de Evaluación</h1>
             </header>
 
+             <form autocomplete="off">
+                <!-- ID -->
+                <div class="grupoId">
+                    <div class="grupo">
+                        <label for="txtId">ID</label>
+                        <input  type="text" id="txtId" placeholder="Ingrese su ID">
+                    </div>
+
+                    <button type="button" id="btnBuscar">Buscar</button>
+                </div>
+
+                <!-- NOMBRE -->
+                <div class="grupo">
+                    <label for="txtNombre">Nombre</label>
+                    <input type="text"id="txtNombre" placeholder="Ingrese su nombre">
+                </div>
+
+                <!-- APELLIDO -->
+                <div class="grupo">
+                    <label for="txtApellido">Apellido</label>
+                    <input  type="text" id="txtApellido" placeholder="Ingrese su apellido">
+                </div>
+
+                <!-- BOTONES -->
+                <button type="button" class="hidden" id="btnRegistrar">
+                    Registrar
+                </button>
+
+                <button type="button" class="hidden" id="btnIniciar">
+                    Iniciar Evaluación
+                </button>
+
+            </form>
+
         </aside>
 
         <!-- PANEL PREGUNTAS -->
