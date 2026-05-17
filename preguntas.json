@@ -1,3 +1,123 @@
 {
-  "preguntas": []
+  "preguntas": [
+    {
+      "id": 1,
+      "pregunta": "¿Qué lenguaje se ejecuta en el navegador?",
+      "opciones": [
+        {
+          "letra": "A",
+          "texto": "Python"
+        },
+        {
+          "letra": "B",
+          "texto": "Java"
+        },
+        {
+          "letra": "C",
+          "texto": "JavaScript"
+        },
+        {
+          "letra": "D",
+          "texto": "C#"
+        }
+      ],
+      "respuestaCorrecta": "C"
+    },
+
+    {
+      "id": 2,
+      "pregunta": "¿Qué significa HTML?",
+      "opciones": [
+        {
+          "letra": "A",
+          "texto": "HyperText Markup Language"
+        },
+        {
+          "letra": "B",
+          "texto": "HighText Machine Language"
+        },
+        {
+          "letra": "C",
+          "texto": "Home Tool Markup Language"
+        },
+        {
+          "letra": "D",
+          "texto": "Hyper Transfer Markup Language"
+        }
+      ],
+      "respuestaCorrecta": "A"
+    },
+
+    {
+      "id": 3,
+      "pregunta": "¿Cuál se usa para estilos en una página web?",
+      "opciones": [
+        {
+          "letra": "A",
+          "texto": "CSS"
+        },
+        {
+          "letra": "B",
+          "texto": "SQL"
+        },
+        {
+          "letra": "C",
+          "texto": "Node.js"
+        },
+        {
+          "letra": "D",
+          "texto": "PHP"
+        }
+      ],
+      "respuestaCorrecta": "A"
+    },
+
+    {
+      "id": 4,
+      "pregunta": "¿Qué estructura almacena varios valores?",
+      "opciones": [
+        {
+          "letra": "A",
+          "texto": "String"
+        },
+        {
+          "letra": "B",
+          "texto": "Boolean"
+        },
+        {
+          "letra": "C",
+          "texto": "Array"
+        },
+        {
+          "letra": "D",
+          "texto": "Null"
+        }
+      ],
+      "respuestaCorrecta": "C"
+    },
+
+    {
+      "id": 5,
+      "pregunta": "¿Qué función convierte JSON texto a objeto?",
+      "opciones": [
+        {
+          "letra": "A",
+          "texto": "JSON.stringify()"
+        },
+        {
+          "letra": "B",
+          "texto": "JSON.parse()"
+        },
+        {
+          "letra": "C",
+          "texto": "parseInt()"
+        },
+        {
+          "letra": "D",
+          "texto": "toString()"
+        }
+      ],
+      "respuestaCorrecta": "B"
+    }
+  ]
 }
