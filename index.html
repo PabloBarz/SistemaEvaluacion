@@ -25,7 +25,7 @@
                 <div class="grupoId">
                     <div class="grupo">
                         <label for="txtId">ID</label>
-                        <input  type="text" id="txtId" placeholder="Ingrese su ID">
+                        <input  type="number" id="txtId" placeholder="Ingrese su ID" required>
                     </div>
 
                     <button type="button" id="btnBuscar">Buscar</button>
@@ -34,13 +34,13 @@
                 <!-- NOMBRE -->
                 <div class="grupo">
                     <label for="txtNombre">Nombre</label>
-                    <input type="text"id="txtNombre" placeholder="Ingrese su nombre">
+                    <input type="text"id="txtNombre" placeholder="Ingrese su nombre" required>
                 </div>
 
                 <!-- APELLIDO -->
                 <div class="grupo">
                     <label for="txtApellido">Apellido</label>
-                    <input  type="text" id="txtApellido" placeholder="Ingrese su apellido">
+                    <input  type="text" id="txtApellido" placeholder="Ingrese su apellido" required>
                 </div>
 
                 <!-- BOTONES -->
@@ -68,7 +68,7 @@
         </section>
 
     </main>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="index.js"></script>
 
 </body>

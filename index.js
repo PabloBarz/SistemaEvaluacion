@@ -15,6 +15,20 @@ function clearInputs(){
     txtApellido.value = "";
 }
 
+function mostrarAlerta(icono, mensaje){
+
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true
+    });
+
+}
+
 function mezclarArray(array){
     return array.sort(() => Math.random() - 0.5);
 }
@@ -26,7 +40,7 @@ function buscarPersona(){
     let id = txtId.value.trim();
 
     if(!id){
-        alert("Ingrese un ID");
+        mostrarAlerta("warning", "Ingrese un ID");
         contenedorPreguntas.innerHTML = ""
         resultado.innerHTML = ""
         txtId.focus();
@@ -39,7 +53,7 @@ function buscarPersona(){
     // PERSONA NO EXISTE
     if(!personaEncontrada){
 
-        alert("No existe la persona")
+        mostrarAlerta("error", "Usuario no encontrado");
 
         contenedorPreguntas.innerHTML = ""
         resultado.innerHTML = ""
@@ -73,7 +87,7 @@ function guardarPersona(){
 
 
     if(!id || !nombre || !apellido){
-        alert("Complete todos los campos");
+        mostrarAlerta("warning", "Complete todos los campos");
         return;
     }
 
@@ -81,7 +95,7 @@ function guardarPersona(){
     let personaExiste = personas.find(persona => persona.id === id);
 
     if(personaExiste){
-        alert("El ID ya existe");
+        mostrarAlerta("error", "El ID ya está registrado");
         return;
     }
 
@@ -97,7 +111,7 @@ function guardarPersona(){
 
     localStorage.setItem("personas", JSON.stringify(personas));
 
-    alert("Usuario registrado");
+    mostrarAlerta("success", "Usuario registrado correctamente");
 
     btnRegistrar.classList.add("hidden");
     btnIniciar.classList.remove("hidden");
@@ -321,7 +335,7 @@ function iniciarEvaluacion(){
     let personaEncontrada = personas.find(persona => persona.id === id);
 
     if(personaEncontrada.intentos >= 3){
-        alert("Máximo de intentos alcanzado");
+        mostrarAlerta("error", "Máximo de intentos alcanzado");
         return;
     }
 
