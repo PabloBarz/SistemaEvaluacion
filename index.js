@@ -86,7 +86,8 @@ function guardarPersona(){
         id: id,
         nombre: nombre,
         apellido: apellido,
-        intentos: 0
+        intentos: 0,
+        historial: []
     };
 
     personas.push(nuevaPersona);
@@ -187,7 +188,20 @@ async function calificarExamen(){
     let incorrectas = totalPreguntas - correctas;
     let nota = (correctas / totalPreguntas) * 20;
 
+    let id = txtId.value.trim();
+    let personas = JSON.parse(localStorage.getItem("personas")) || [];
+    let persona = personas.find(persona => persona.id === id);
+    let fecha = new Date().toLocaleDateString();
+
+    persona.historial.push({
+        nota: nota,
+        fecha: fecha
+    });
+
+    localStorage.setItem("personas", JSON.stringify(personas));
+
     mostrarResultado(correctas, incorrectas, nota);
+
 }
 
 
@@ -243,6 +257,12 @@ function iniciarEvaluacion(){
     let id = txtId.value.trim();
     let personas = JSON.parse(localStorage.getItem("personas")) || [];
     let personaEncontrada = personas.find(persona => persona.id === id);
+
+    if(personas.intentos >= 3){
+        alert("Máximo de intentos alcanzado");
+        return;
+    }
+
 
     // INCREMENTAR INTENTOS
     personaEncontrada.intentos++;
