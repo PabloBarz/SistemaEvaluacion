@@ -14,6 +14,10 @@ function clearInputs(){
     txtApellido.value = "";
 }
 
+function mezclarArray(array){
+    return array.sort(() => Math.random() - 0.5);
+}
+
 function buscarPersona(){
 
     let id = txtId.value.trim();
@@ -73,7 +77,7 @@ function guardarPersona(){
         id: id,
         nombre: nombre,
         apellido: apellido,
-        intentos: 1
+        intentos: 0
     };
 
     personas.push(nuevaPersona);
@@ -94,10 +98,12 @@ async function renderizarPreguntas(){
     let contenedor = document.getElementById("contenedorPreguntas");
 
     contenedor.innerHTML = "";
-    data.preguntas.forEach((pregunta, index) => {
+    let preguntasMezcladas = mezclarArray([...data.preguntas]);
+    preguntasMezcladas.forEach((pregunta, index) => {
 
         let opcionesHTML = "";
-        pregunta.opciones.forEach(opcion => {
+        let opcionesMezcladas = mezclarArray([...pregunta.opciones]);
+        opcionesMezcladas.forEach((opcion, opcionIndex) => {
 
             opcionesHTML += `
                 <label class="opcion">
@@ -105,10 +111,10 @@ async function renderizarPreguntas(){
                     <input 
                         type="radio"
                         name="pregunta${pregunta.id}"
-                        value="${opcion.letra}"
+                        value="${value="${opcion.correcta}"}"
                     >
 
-                    ${opcion.letra}) ${opcion.texto}
+                    ${String.fromCharCode(65 + opcionIndex)}) ${opcion.texto}
 
                 </label>
             `;

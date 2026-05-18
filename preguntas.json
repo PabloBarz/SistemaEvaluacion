@@ -5,23 +5,22 @@
       "pregunta": "¿Qué lenguaje se ejecuta en el navegador?",
       "opciones": [
         {
-          "letra": "A",
-          "texto": "Python"
+          "texto": "Python",
+          "correcta": false
         },
         {
-          "letra": "B",
-          "texto": "Java"
+          "texto": "Java",
+          "correcta": false
         },
         {
-          "letra": "C",
-          "texto": "JavaScript"
+          "texto": "JavaScript",
+          "correcta": true
         },
         {
-          "letra": "D",
-          "texto": "C#"
+          "texto": "C#",
+          "correcta": false
         }
-      ],
-      "respuestaCorrecta": "C"
+      ]
     },
 
     {
@@ -29,23 +28,22 @@
       "pregunta": "¿Qué significa HTML?",
       "opciones": [
         {
-          "letra": "A",
-          "texto": "HyperText Markup Language"
+          "texto": "HyperText Markup Language",
+          "correcta": true
         },
         {
-          "letra": "B",
-          "texto": "HighText Machine Language"
+          "texto": "HighText Machine Language",
+          "correcta": false
         },
         {
-          "letra": "C",
-          "texto": "Home Tool Markup Language"
+          "texto": "Home Tool Markup Language",
+          "correcta": false
         },
         {
-          "letra": "D",
-          "texto": "Hyper Transfer Markup Language"
+          "texto": "Hyper Transfer Markup Language",
+          "correcta": false
         }
-      ],
-      "respuestaCorrecta": "A"
+      ]
     },
 
     {
@@ -53,23 +51,22 @@
       "pregunta": "¿Cuál se usa para estilos en una página web?",
       "opciones": [
         {
-          "letra": "A",
-          "texto": "CSS"
+          "texto": "CSS",
+          "correcta": true
         },
         {
-          "letra": "B",
-          "texto": "SQL"
+          "texto": "SQL",
+          "correcta": false
         },
         {
-          "letra": "C",
-          "texto": "Node.js"
+          "texto": "Node.js",
+          "correcta": false
         },
         {
-          "letra": "D",
-          "texto": "PHP"
+          "texto": "PHP",
+          "correcta": false
         }
-      ],
-      "respuestaCorrecta": "A"
+      ]
     },
 
     {
@@ -77,23 +74,22 @@
       "pregunta": "¿Qué estructura almacena varios valores?",
       "opciones": [
         {
-          "letra": "A",
-          "texto": "String"
+          "texto": "String",
+          "correcta": false
         },
         {
-          "letra": "B",
-          "texto": "Boolean"
+          "texto": "Boolean",
+          "correcta": false
         },
         {
-          "letra": "C",
-          "texto": "Array"
+          "texto": "Array",
+          "correcta": true
         },
         {
-          "letra": "D",
-          "texto": "Null"
+          "texto": "Null",
+          "correcta": false
         }
-      ],
-      "respuestaCorrecta": "C"
+      ]
     },
 
     {
@@ -101,23 +97,22 @@
       "pregunta": "¿Qué función convierte JSON texto a objeto?",
       "opciones": [
         {
-          "letra": "A",
-          "texto": "JSON.stringify()"
+          "texto": "JSON.stringify()",
+          "correcta": false
         },
         {
-          "letra": "B",
-          "texto": "JSON.parse()"
+          "texto": "JSON.parse()",
+          "correcta": true
         },
         {
-          "letra": "C",
-          "texto": "parseInt()"
+          "texto": "parseInt()",
+          "correcta": false
         },
         {
-          "letra": "D",
-          "texto": "toString()"
+          "texto": "toString()",
+          "correcta": false
         }
-      ],
-      "respuestaCorrecta": "B"
+      ]
     }
   ]
 }
