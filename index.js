@@ -9,11 +9,12 @@ const btnRegistrar = document.getElementById("btnRegistrar");
 const btnIniciar = document.getElementById("btnIniciar");
 const btnHistorial = document.getElementById("btnHistorial");
 
-function clearInputs(){
-    txtId.value = "";
-    txtNombre.value = "";
-    txtApellido.value = "";
-}
+// CONTENEDORES
+const contenedorPreguntas = document.getElementById("contenedorPreguntas");
+const resultadoEvaluacion = document.getElementById("resultadoEvaluacion");
+
+let usuarioActual = null;
+
 
 function mostrarAlerta(icono, mensaje){
 
@@ -29,26 +30,37 @@ function mostrarAlerta(icono, mensaje){
 
 }
 
+
+function obtenerPersonas(){
+    return JSON.parse(localStorage.getItem("personas")) || [];
+}
+
+function guardarPersonas(personas){
+    localStorage.setItem("personas", JSON.stringify(personas));
+}
+
+function buscarPersonaPorId(id){
+    let personas = obtenerPersonas();
+    return personas.find(persona => persona.id === id);
+}
+
 function mezclarArray(array){
     return array.sort(() => Math.random() - 0.5);
 }
 
 function buscarPersona(){
-    let contenedorPreguntas = document.getElementById("contenedorPreguntas")
-    let resultado = document.getElementById("resultadoEvaluacion")
 
     let id = txtId.value.trim();
 
     if(!id){
         mostrarAlerta("warning", "Ingrese un ID");
         contenedorPreguntas.innerHTML = ""
-        resultado.innerHTML = ""
+        resultadoEvaluacion.innerHTML = ""
         txtId.focus();
         return;
     }
 
-    let personas = JSON.parse(localStorage.getItem("personas")) || [];
-    let personaEncontrada = personas.find(persona => persona.id === id);
+    let personaEncontrada = buscarPersonaPorId(id);
 
     // PERSONA NO EXISTE
     if(!personaEncontrada){
@@ -56,7 +68,7 @@ function buscarPersona(){
         mostrarAlerta("error", "Usuario no encontrado");
 
         contenedorPreguntas.innerHTML = ""
-        resultado.innerHTML = ""
+        resultadoEvaluacion.innerHTML = ""
         txtNombre.value = "";
         txtApellido.value = "";
 
@@ -69,10 +81,11 @@ function buscarPersona(){
     }
 
     // PERSONA EXISTE
+    usuarioActual = personaEncontrada;
     txtNombre.value = personaEncontrada.nombre;
     txtApellido.value = personaEncontrada.apellido;
     contenedorPreguntas.innerHTML = ""
-    resultado.innerHTML = ""
+    resultadoEvaluacion.innerHTML = ""
 
     btnIniciar.classList.remove("hidden");
     btnHistorial.classList.remove("hidden");
@@ -91,8 +104,8 @@ function guardarPersona(){
         return;
     }
 
-    let personas = JSON.parse(localStorage.getItem("personas")) || [];
-    let personaExiste = personas.find(persona => persona.id === id);
+    let personas = obtenerPersonas();
+    let personaExiste = buscarPersonaPorId(id);
 
     if(personaExiste){
         mostrarAlerta("error", "El ID ya está registrado");
@@ -109,12 +122,12 @@ function guardarPersona(){
 
     personas.push(nuevaPersona);
 
-    localStorage.setItem("personas", JSON.stringify(personas));
-
+    guardarPersonas(personas);
     mostrarAlerta("success", "Usuario registrado correctamente");
 
     btnRegistrar.classList.add("hidden");
     btnIniciar.classList.remove("hidden");
+    usuarioActual = nuevaPersona;
 
 }
 
@@ -122,12 +135,11 @@ async function renderizarPreguntas(){
 
     let response = await fetch("preguntas.json");
     let data = await response.json();
-    let contenedor = document.getElementById("contenedorPreguntas");
+    
+    resultadoEvaluacion.classList.add("hidden");
+    contenedorPreguntas.classList.remove("hidden");
 
-    let resultado = document.getElementById("resultadoEvaluacion");
-    resultado.classList.add("hidden");
-
-    contenedor.innerHTML = "";
+    contenedorPreguntas.innerHTML = "";
     let preguntasMezcladas = mezclarArray([...data.preguntas]);
     preguntasMezcladas.forEach((pregunta, index) => {
 
@@ -151,7 +163,7 @@ async function renderizarPreguntas(){
 
         });
 
-        contenedor.innerHTML += `
+        contenedorPreguntas.innerHTML += `
             <div class="pregunta">
 
                 <h3>
@@ -167,7 +179,7 @@ async function renderizarPreguntas(){
 
     });
 
-    contenedor.innerHTML += `
+    contenedorPreguntas.innerHTML += `
         <button type="button" id="btnCalificar">
             Finalizar Evaluación
         </button>
@@ -205,18 +217,23 @@ async function calificarExamen(){
     let incorrectas = totalPreguntas - correctas;
     let nota = (correctas / totalPreguntas) * 20;
 
-    let id = txtId.value.trim();
-    let personas = JSON.parse(localStorage.getItem("personas")) || [];
-    let persona = personas.find(persona => persona.id === id);
+    let personas = obtenerPersonas();
+
+    let persona = personas.find(
+        persona => persona.id === usuarioActual.id
+    );
+
     let fecha = new Date().toLocaleDateString();
 
     persona.historial.push({
+        intento: persona.intentos,
         nota: nota,
         fecha: fecha
     });
 
-    localStorage.setItem("personas", JSON.stringify(personas));
+    usuarioActual = persona;
 
+    guardarPersonas(personas);
     mostrarResultado(correctas, incorrectas, nota);
 
 }
@@ -224,26 +241,20 @@ async function calificarExamen(){
 
 function mostrarResultado(correctas, incorrectas, nota){
 
-    let contenedorPreguntas = document.getElementById("contenedorPreguntas");
     contenedorPreguntas.innerHTML = "";
     contenedorPreguntas.classList.add("hidden")
-
-    let resultado = document.getElementById("resultadoEvaluacion");
-    resultado.classList.remove("hidden");
-
+    
+    resultadoEvaluacion.classList.remove("hidden");
     btnHistorial.classList.remove("hidden")
 
-    let id = txtId.value.trim();
-    let personas = JSON.parse(localStorage.getItem("personas")) || [];
-    let persona = personas.find(persona => persona.id === id);
-    resultado.innerHTML = `
+    resultadoEvaluacion.innerHTML = `
     
         <div class="resultadoCard">
 
             <h2>Resultado Final</h2>
 
             <h3 class="nombreAlumno">
-                ${persona.nombre} ${persona.apellido}
+                ${usuarioActual.nombre} ${usuarioActual.apellido}
             </h3>
 
             <div class="estadisticas">
@@ -273,32 +284,24 @@ function mostrarResultado(correctas, incorrectas, nota){
 
 function mostrarHistorial(){
 
-    let id = txtId.value.trim();
-    let personas = JSON.parse(localStorage.getItem("personas")) || [];
-    let persona = personas.find(persona => persona.id === id);
-
-    if(!persona){
+    if(!usuarioActual){
         return;
     }
 
     btnHistorial.classList.add("hidden")
 
     // OCULTAR PREGUNTAS
-    let contenedorPreguntas = document.getElementById("contenedorPreguntas");
     contenedorPreguntas.classList.add("hidden");
+    resultadoEvaluacion.classList.remove("hidden");
 
-    let resultado = document.getElementById("resultadoEvaluacion");
-    resultado.classList.remove("hidden");
-
-    resultado.innerHTML = ""
-    resultado.innerHTML = `
+    resultadoEvaluacion.innerHTML = `
 
         <div class="resultadoCard">
 
             <h2>Historial de Evaluaciones</h2>
 
             <h3 class="nombreAlumno">
-                ${persona.nombre} ${persona.apellido}
+                ${usuarioActual.nombre} ${usuarioActual.apellido}
             </h3>
 
             <table class="tablaHistorial">
@@ -311,10 +314,10 @@ function mostrarHistorial(){
                 </thead>
                 <tbody>
 
-                    ${persona.historial.map((item, index) => `
+                    ${usuarioActual.historial.map((item) => `
 
                         <tr>
-                            <td>${index + 1}</td>
+                            <td>${item.intento}</td>
                             <td>${item.nota.toFixed(1)}</td>
                             <td>${item.fecha}</td>
                         </tr>
@@ -330,21 +333,23 @@ function mostrarHistorial(){
 
 function iniciarEvaluacion(){
 
-    let id = txtId.value.trim();
-    let personas = JSON.parse(localStorage.getItem("personas")) || [];
-    let personaEncontrada = personas.find(persona => persona.id === id);
-
-    if(personaEncontrada.intentos >= 3){
+    if(usuarioActual.intentos >= 3){
         mostrarAlerta("error", "Máximo de intentos alcanzado");
         return;
     }
 
+    let personas = obtenerPersonas();
+
+    let persona = personas.find(
+        persona => persona.id === usuarioActual.id
+    );
 
     // INCREMENTAR INTENTOS
-    personaEncontrada.intentos++;
+    persona.intentos++;
 
+    usuarioActual = persona;
     // GUARDAR CAMBIOS
-    localStorage.setItem("personas", JSON.stringify(personas));
+    guardarPersonas(personas);
 
     btnIniciar.classList.add("hidden")
     btnHistorial.classList.add("hidden")
