@@ -13,13 +13,14 @@ body{
 .contenedorPrincipal{
     max-width: 1300px;
     margin: auto;
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 30px;
-    align-items: start;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
 }
 
 .panelUsuario{
+    width: 380px;
+    flex-shrink: 0;
     background: white;
     padding: 30px;
     border-radius: 16px;
@@ -106,6 +107,8 @@ button:hover{
 }
 
 #contenedorPreguntas{
+    flex: 1;
+    max-width: 850px;
     display: flex;
     flex-direction: column;
     gap: 22px;
@@ -179,4 +182,71 @@ button:hover{
 
 #btnCalificar:hover{
     background: #15803d;
+}
+
+#resultadoEvaluacion{
+    flex: 1;
+    max-width: 850px;
+}
+
+
+.resultadoCard{
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.resultadoCard h2{
+    text-align: center;
+    color: #0f172a;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.estadisticas{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.estadistica{
+    padding: 22px 18px;
+    border-radius: 16px;
+    text-align: center;
+    color: white;
+}
+
+.estadistica span{
+    display: block;
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.estadistica p{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.correctas{
+    background: #16a34a;
+}
+
+.incorrectas{
+    background: #dc2626;
+}
+
+.nota{
+    background: #2563eb;
+}
+
+.nombreAlumno{
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+    color: #334155;
+    font-weight: 600;
 }
