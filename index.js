@@ -7,6 +7,7 @@ const txtApellido = document.getElementById("txtApellido");
 const btnBuscar = document.getElementById("btnBuscar");
 const btnRegistrar = document.getElementById("btnRegistrar");
 const btnIniciar = document.getElementById("btnIniciar");
+const btnHistorial = document.getElementById("btnHistorial");
 
 function clearInputs(){
     txtId.value = "";
@@ -47,6 +48,7 @@ function buscarPersona(){
 
         btnRegistrar.classList.remove("hidden");
         btnIniciar.classList.add("hidden");
+        btnHistorial.classList.add("hidden");
         txtNombre.focus();
 
         return;
@@ -59,6 +61,7 @@ function buscarPersona(){
     resultado.innerHTML = ""
 
     btnIniciar.classList.remove("hidden");
+    btnHistorial.classList.remove("hidden");
     btnRegistrar.classList.add("hidden");
 }
 
@@ -214,6 +217,8 @@ function mostrarResultado(correctas, incorrectas, nota){
     let resultado = document.getElementById("resultadoEvaluacion");
     resultado.classList.remove("hidden");
 
+    btnHistorial.classList.remove("hidden")
+
     let id = txtId.value.trim();
     let personas = JSON.parse(localStorage.getItem("personas")) || [];
     let persona = personas.find(persona => persona.id === id);
@@ -252,13 +257,70 @@ function mostrarResultado(correctas, incorrectas, nota){
 
 }
 
+function mostrarHistorial(){
+
+    let id = txtId.value.trim();
+    let personas = JSON.parse(localStorage.getItem("personas")) || [];
+    let persona = personas.find(persona => persona.id === id);
+
+    if(!persona){
+        return;
+    }
+
+    btnHistorial.classList.add("hidden")
+
+    // OCULTAR PREGUNTAS
+    let contenedorPreguntas = document.getElementById("contenedorPreguntas");
+    contenedorPreguntas.classList.add("hidden");
+
+    let resultado = document.getElementById("resultadoEvaluacion");
+    resultado.classList.remove("hidden");
+
+    resultado.innerHTML = ""
+    resultado.innerHTML = `
+
+        <div class="resultadoCard">
+
+            <h2>Historial de Evaluaciones</h2>
+
+            <h3 class="nombreAlumno">
+                ${persona.nombre} ${persona.apellido}
+            </h3>
+
+            <table class="tablaHistorial">
+                <thead>
+                    <tr>
+                        <th>N° Intento</th>
+                        <th>Nota</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    ${persona.historial.map((item, index) => `
+
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.nota.toFixed(1)}</td>
+                            <td>${item.fecha}</td>
+                        </tr>
+
+                    `).join("")}
+
+                </tbody>
+            </table>
+        </div>
+
+    `;
+}
+
 function iniciarEvaluacion(){
 
     let id = txtId.value.trim();
     let personas = JSON.parse(localStorage.getItem("personas")) || [];
     let personaEncontrada = personas.find(persona => persona.id === id);
 
-    if(personas.intentos >= 3){
+    if(personaEncontrada.intentos >= 3){
         alert("Máximo de intentos alcanzado");
         return;
     }
@@ -271,6 +333,7 @@ function iniciarEvaluacion(){
     localStorage.setItem("personas", JSON.stringify(personas));
 
     btnIniciar.classList.add("hidden")
+    btnHistorial.classList.add("hidden")
     renderizarPreguntas();
 }
 
@@ -278,6 +341,7 @@ function iniciarEvaluacion(){
 //EVENTOS
 btnBuscar.addEventListener("click", buscarPersona);
 btnRegistrar.addEventListener("click", guardarPersona);
+btnHistorial.addEventListener("click", mostrarHistorial);
 btnIniciar.addEventListener("click", iniciarEvaluacion);
 txtId.addEventListener("keypress", function(event){
 
